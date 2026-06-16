@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    envirnonment {
+        // Define any environment variables here
+
+        EC2_HOST = 'ec2-34-201-48-237.compute-1.amazonaws.com'
+
+        }
+
+    stages {
+        stage('checkout') {
+            steps {
+                echo 'Checking out code...'
+                 checkout scm
+                
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Bui...'
+                
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying to EC2...'
+                ssh -o "StrictHostKeyChecking=no" ubuntu@${EC2_HOST
+                sudo apt install update && sudo apt install update -y
+                sudo apt install nginx -y
+                sudo rm -rf /var/www/html/index.nginx-debian.html
+                
+              sudo tee /var/www/html/index.html > /dev/null <<EOF
+
+<html>
+  <body>
+    <h1>Hello World!</h1>
+    <p>My website is running successfully.</p>
+  </body>
+</html>
+EOF
+
+
+    
