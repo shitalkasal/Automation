@@ -44,16 +44,13 @@ pipeline {
                 sshagent(['Jenkins-ssh-key']) {
 
                     sh """
+                     #copy file to EC2
+                    
+                    scp -o StrictHostKeyChecking=no index.html ubuntu@${SERVER_IP}:/tmp/
+                     # Run commands on EC2
+                    ssh -o StrictHostKeyChecking=no ubuntu@${SERVER_IP} << 'EOF'
 
-                    scp -o StrictHostKeyChecking=no \
-
-                    index.html ubuntu@${SERVER_IP}:/tmp/
-
-                    ssh -o StrictHostKeyChecking=no \
-
-                    ubuntu@${SERVER_IP} '
-
-                    sudo apt update
+                    sudo apt update -y
 
                     sudo apt install nginx -y
 
@@ -67,7 +64,9 @@ pipeline {
 
                     sudo systemctl restart nginx
 
-                    '
+                    EOF
+
+                    
 
                     """
 
