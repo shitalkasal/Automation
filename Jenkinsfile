@@ -28,11 +28,11 @@ pipeline {
             steps {
                 sshagent(['Jenkins-ssh-key']) {
                     sh """
-                        # Copy file to EC2
-                        scp -o StrictHostKeyChecking=no index.html ubuntu@${SERVER_IP}:/tmp/
+                          # Copy file to EC2
+                         scp -o StrictHostKeyChecking=no index.html ubuntu@${SERVER_IP}:/tmp/
 
-                        # Run commands on EC2
-                        ssh -o StrictHostKeyChecking=no ubuntu@${SERVER_IP} << 'EOF'
+                         # Run commands on EC2
+                         ssh -o StrictHostKeyChecking=no ubuntu@${SERVER_IP} << 'EOF'
                             sudo apt update -y
                             sudo apt install nginx -y
                             sudo rm -f /var/www/html/index.nginx-debian.html
@@ -40,8 +40,8 @@ pipeline {
                             sudo chown www-data:www-data ${DEPLOY_PATH}/index.html
                             sudo chmod 644 ${DEPLOY_PATH}/index.html
                             sudo systemctl restart nginx
-                        EOF
-                    """
+                            EOF
+                       """
                 }
             }
         }
